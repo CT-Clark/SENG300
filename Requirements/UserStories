@@ -1,0 +1,16 @@
+1) I start the program up in my console. 
+It begins by asking me for the pathname to the directory I would like to examine.
+I enter in my home directory.
+Then the program will ask me for the Java type that I wish to count.
+This run through I decide that I would like to count the number of declaratiosn and references to Strings.
+After entering everything correctly the program will print to console the type that I wanted to examine, the number of declarations of that type, and the number of references. 
+
+2) I start the program up in my console.
+It begins as usual. This time I enter in an incorrect directory name, afterwards it alerts me that it was incorrect and that I should try again. This time I enter in a correct directory name.
+Afterwards I attempt to write in a Java type, but have forgotten that this specific type is for a different language, so the program once again alerts me that there is no java type by that name and asks me to try again. This time I succeed.
+
+3) I start the program up in my console.
+During this run through however I've forgotten that I actually need to compile it again, as this is the old version. I enter in a 'q' for quit and it stops the program with no problem. 
+
+4) I start the program up in my console.
+During this run I decide that I need to troubleshoot the program from within, so instead of providing a directory name, I simply enter 't', after which I proceed as usual from the beginning, but this run through produces some helpful information that allows me to monitor how my program is doing. 
