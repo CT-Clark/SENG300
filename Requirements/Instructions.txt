@@ -1,0 +1,74 @@
+Instructions
+
+The first iteration of the project is relatively simple, but should be taken seriously as later iterations will build atop it.
+Overview
+
+You are to develop a simple analysis tool that will find the number of occurences of the declarations of and references to a Java type (as a fully qualified name, like java.lang.String), within a specified directory.
+Team
+
+You will be assigned to a 3- or 4-person team according to the information on this spreadsheet.  The contact information contained herein is private and is not to be used for any purposes outside of the project for this course.  Violation of this privacy can lead to serious consequences inclduing expulsion or criminal prosecution.
+
+You are required to contact your teammates to help organize the project. 
+
+You are required to participate in and contribute to your team's project.
+
+Failrure to do these things or failure to do them in a timely manner will result in reduction of your grade, regardless of the overall performance of the team.
+Requirements
+Team-based aspects
+
+You and your team must develop a standalone Java application that:
+
+    takes a pathname to indicate a directory of interest,
+    takes a string to indicate a fully qualified name of a Java type,
+    counts the number of declarations of that type within that directory (non-recursively!), and
+    counts the number of references to each occurrence of that type within that directory (non-recursively!).
+
+The output must be a string written to the console (i.e., standard output) stating the name of the type, the count of declarations, and the count of references:
+
+<type>. Declarations found: <count>; references found: <count>.
+
+where the <type> and two <count>s are to be replaced with the relevant values.
+
+You and your team must develop an automated test suite for testing your application.  Logical test case selection and coverage both matter.
+
+You and your team must provide structural, sequence/communication, and state diagrams to explain how your application works.
+
+You and your team may provide a supplementary, one (1) page explanation of how your application works.  This should aim to help the reader interpret the diagrams.
+
+You and your team must provide a Git log that demonstrates who performed commits over time. (This can be used partially as evidence regarding individual opinions; see below.)
+Peer/self evaluations
+
+There is a SEPARATE Dropbox folder for these individual peer/self evaluations.  The instructions are given there.
+Considerations
+
+What we are looking for is: (1) Does your application work? (2) Is your test suite designed to demonstrate the presence of bugs? (3) Do your diagrams explain your implementation? (4) Have you fulfilled the other requirements?
+Advice
+
+There are a lot of edge cases in the Java language.  These are all reflected in the complicated details of the abstract syntax trees (ASTs) that are produced here.  Fortunately, most of these can be ignored at this stage for this application!  This is a standard trick for such applications, which makes building them iteratively be a tractable proposition.
+
+In a good team, everyone contributes, but not necessarily in the same way.
+Solution Submission
+
+You are required to submit:
+
+    your diagrams (plus a cover page with the names and student numbers of your teammates, plus an optional explanation page) as a single PDF document;
+    a ZIP file containing your exported Eclipse project (including your automated test suite); and,
+    your Git log file
+
+in this Dropbox folder before the due date/time.  Your Dropbox comments can explain sources of information you have used, as described below.
+Late Penalties
+
+Submissions made more than 48 hours beyond the due date/time will receive an F.
+
+The late penalty will otherwise be calculated as:
+
+late_penalty = min { hours_late, 48 } / 48
+
+hours_late will be determined according to D2L.  Submissions that are less than an hour late will receive no late penalty (i.e., there is a grace period of an hour).
+Collaboration and Plagiarism
+
+This is a group assignment as explained under the course Collaboration and Plagiarism Policy.  It is to be performed strictly within your assigned group.  Questions may be asked on the D2L Discussion Forum.  Assistance in practical matters (setting up an Eclipse project, running the debugger, etc.) are acceptable from students outside your group, but discussion of details of the assignment solution cross the line.  If in doubt, ask us first!
+
+You must cite all sources of information that you use in your solution (other than materials that we directly hand you, like this description, the course notes, details posted to the Discussion Forum).  You can list these in the comments when you submit your solution.
+
+This is an individual D2L Dropbox folder strictly for practical reasons: I have run into difficulties in the past with D2L's support for groups, so this is easier.  One team member can submit the required materials or everyone can do so.
