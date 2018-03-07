@@ -3,7 +3,9 @@ It begins by asking me for the pathname to the directory I would like to examine
 I enter in my home directory.
 Then the program will ask me for the Java type that I wish to count.
 This run through I decide that I would like to count the number of declaratiosn and references to Strings.
-After entering everything correctly the program will print to console the type that I wanted to examine, the number of declarations of that type, and the number of references. 
+After entering everything correctly the program will print to console the type that I wanted to examine, the number of declarations of that type, and the number of references.
+In the form: <type>. Declarations found: <count>; references found: <count>.
+<type> will be Java type the user put in
 
 2) I start the program up in my console.
 It begins as usual. This time I enter in an incorrect directory name, afterwards it alerts me that it was incorrect and that I should try again. This time I enter in a correct directory name.
@@ -16,4 +18,5 @@ During this run through however I've forgotten that I actually need to compile i
 During this run I decide that I need to troubleshoot the program from within, so instead of providing a directory name, I simply enter 't', after which I proceed as usual from the beginning, but this run through produces some helpful information that allows me to monitor how my program is doing. 
 
 5) I start the program up in my console.
-It begins as usual. This time I enter in the name of directory which is just an empty directory, afterwards I should be alerted and told that the directory is empty(there is nothing in it), and that I should enter in the name of a different directory(prefferably which has something in it). After I enter in a new directory(that isnt empty), the program then continues to proceed as usual.
+It begins as usual. 
+This time I enter in the name of directory which is just an empty directory, afterwards I should be alerted and told that the directory is empty(there is nothing in it), and that I should enter in the name of a different directory(prefferably which has something in it). After I enter in a new directory(that isnt empty), the program then continues to proceed as usual.
