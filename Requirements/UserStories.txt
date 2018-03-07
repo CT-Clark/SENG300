@@ -20,3 +20,6 @@ During this run I decide that I need to troubleshoot the program from within, so
 5) I start the program up in my console.
 It begins as usual. 
 This time I enter in the name of directory which is just an empty directory, afterwards I should be alerted and told that the directory is empty(there is nothing in it), and that I should enter in the name of a different directory(prefferably which has something in it). After I enter in a new directory(that isnt empty), the program then continues to proceed as usual.
+
+
+6)
