@@ -64,7 +64,7 @@ public class project {
     		while (input.hasNextLine()) {
     			String line = input.nextLine();
     			sb.append(line);
-    			sb.append("\n");
+    			sb.append("\r\n");
     		}
     		input.close();
     		sourceString =  sb.toString();
