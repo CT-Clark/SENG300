@@ -5,12 +5,16 @@
  *
  * TODO: Provide description of what this program does
  */
+import java.io.*;
+import java.util.Scanner;
+
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+
  
 public class project {
 	private static String pathName;
@@ -49,5 +53,25 @@ public class project {
 		// Prints out the result
     	System.out.println(javaTypeName + ". Declarations found: " + 
     			declarationsFound + "; references found: " + referencesFound);
+    }
+    
+    public String sourceToString(String pathName) {
+    	Scanner input = null;
+    	StringBuilder sb = new StringBuilder();
+    	String sourceString = "";
+    	try {
+    		input = new Scanner(new File(pathName));
+    		while (input.hasNextLine()) {
+    			String line = input.nextLine();
+    			sb.append(line);
+    			sb.append("\n");
+    		}
+    		input.close();
+    		sourceString =  sb.toString();
+    	}
+    	catch (FileNotFoundException fnfe) {
+    		System.out.println("File not Found");
+    	}
+    	return sourceString;
     }
 }
