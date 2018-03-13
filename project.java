@@ -23,6 +23,7 @@ public class project {
     public static void main(String[] args) {
     	int declarationsFound = 0;
     	int referencesFound = 0;
+    	boolean success = true;
     	//String str = args[0];
     	
     	// Gets the path name and Java type to search as command line arguments
@@ -30,14 +31,17 @@ public class project {
     		pathName = args[0];
     		javaTypeName = args[1];
     	} catch (ArrayIndexOutOfBoundsException e) {
-    		System.out.println("Not enough arguments, please provide the pathname and the Jave type.\n");
-    	}				
+    		success = false;
+    		System.out.println("Not enough arguments, please provide the pathname and the Java type.\n");
+    	} if (success) {
+    		// Prints out the result
+        	System.out.println(javaTypeName + ". Declarations found: " + 
+        			declarationsFound + "; references found: " + referencesFound);
+    	}
 		//declarationsFound =
     	//referencesFound = 
     	
-		// Prints out the result
-    	System.out.println(javaTypeName + ". Declarations found: " + 
-    			declarationsFound + "; references found: " + referencesFound);
+		
     }
     
     public String sourceToString(String pathName) {
@@ -80,7 +84,7 @@ public class project {
 				System.out.println(lineNumber);
 				return false;
 				}
-			}
+			});
 		}
 	
 }
