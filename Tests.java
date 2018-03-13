@@ -1,11 +1,15 @@
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import org.junit.jupiter.api.Test;
 
 class Tests {
-
+	private static String BASEDIR = "C:/Users/Scott Eveleigh/Documents/GitHub/SENG300";
+	
+	
 	//Test for the sourceToString method
 	@Test
 	public void testForSourceToString() {
@@ -20,15 +24,30 @@ class Tests {
 		assertEquals(stringOfFile, fileContents);
 	}
 	
-	//Should print only the java files in directory to console
+	//Unfinished test
 	@Test
-	public void testParseDirectory() {
+	public void testFindJavaFiles() {
 		DeclarationCounter dc = new DeclarationCounter();
 		try {
-			dc.findJavaFiles("C:/Users/Scott Eveleigh/Documents/GitHub/SENG300");
+			dc.findJavaFiles(BASEDIR);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 		}
 		
+	}
+	
+	//Test for the output printing
+	@Test
+	public void testPrintOutput() {
+		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		
+		DeclarationCounter dc = new DeclarationCounter();
+		String[] list = {"C:/Users","java.lang.String"};
+		dc.setArgs(list);
+		dc.printOutput();
+		assertEquals("java.lang.String. Declarations " + 
+				"found: 0; references found: 0\r\n", outContent.toString());
+		System.setOut(System.out);
 	}
 }
