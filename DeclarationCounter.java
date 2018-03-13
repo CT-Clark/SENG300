@@ -1,6 +1,15 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.Scanner;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 public class DeclarationCounter {
 	
@@ -29,16 +38,32 @@ public class DeclarationCounter {
 	
 	public void parseDirectory(String pathName, String javaTypeName, int declarationsFound, int referencesFound) {
 		ASTParser parser = ASTParser.newParser(AST.JLS9);
+		String str = sourceToString(getPathName());
 		parser.setSource(str.toCharArray()); // TODO: Which string to parse
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 
 		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
 
-		cu.accept(new ASTVisitor() {
+		//cu.accept(new ASTVisitor()) {
 			// TODO: Continue here
-		}
+		//}
 	}
 	
+	
+	public void findJavaFiles(String pathName) throws IOException {
+		final File directory = new File(pathName);
+		File[] listOfFiles = directory.listFiles(new FilenameFilter() {
+			public boolean accept(File directory, String name) {
+				return name.endsWith(".java");
+			}
+		});
+		for (File file : listOfFiles) {
+			if (file.isFile()) {
+				String fileString = sourceToString(file.getName());
+				//Call ASTParser with string
+			}
+		}
+	}
 	
     public String sourceToString(String pathName) {
     	Scanner input = null;
