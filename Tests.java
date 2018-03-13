@@ -7,7 +7,7 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.Test;
 
 class Tests {
-	private static String BASEDIR = "C:/Users/Scott Eveleigh/Documents/GitHub/SENG300";
+	private static String BASEDIR = "C:/Users/Scott Eveleigh/Documents/GitHub/SENG300/ParseTestFiles";
 	
 	
 	//Test for the sourceToString method
@@ -16,7 +16,9 @@ class Tests {
 		DeclarationCounter dc = new DeclarationCounter();
 		String fileContents = "public class ClassForTesting {\r\n" + 
 				"	public void Method() {\r\n" + 
-				"		\r\n" + 
+				"		int num = 12;\r\n" + 
+				"        String place = \"Calgary\";\r\n" + 
+				"        place = \"Nowhere\";\r\n" + 
 				"	}\r\n" + 
 				"}\r\n" + 
 				"";
@@ -32,6 +34,7 @@ class Tests {
 			dc.findJavaFiles(BASEDIR);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
@@ -49,5 +52,16 @@ class Tests {
 		assertEquals("java.lang.String. Declarations " + 
 				"found: 0; references found: 0\r\n", outContent.toString());
 		System.setOut(System.out);
+	}
+	
+	@Test
+	public void testDeclarations() {
+		DeclarationCounter dc = new DeclarationCounter();
+		try {
+			dc.findJavaFiles(BASEDIR);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -8,7 +8,11 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 public class DeclarationCounter {
@@ -36,17 +40,33 @@ public class DeclarationCounter {
     	}
 	}
 	
-	public void parseDirectory(String pathName, String javaTypeName, int declarationsFound, int referencesFound) {
+	public void parseDirectory(String pathName) {//, String javaTypeName, int declarationsFound, int referencesFound) {
 		ASTParser parser = ASTParser.newParser(AST.JLS9);
-		String str = sourceToString(getPathName());
-		parser.setSource(str.toCharArray()); // TODO: Which string to parse
+		//String str = sourceToString(pathName);
+		parser.setSource(pathName.toCharArray()); // TODO: Which string to parse
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 
 		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
 
-		//cu.accept(new ASTVisitor()) {
+		cu.accept(new ASTVisitor() {
+			/*public boolean visit(VariableDeclarationFragment node) {//TypeDeclaration node) {
+				SimpleName name = node.getName();
+				System.out.println("Declaration of " + name);
+				return false;
+			}*/
+			public boolean visit(QualifiedName node) {//TypeDeclaration node) {
+				SimpleName name = node.getName();
+				Name qname = node.getQualifier();
+				System.out.println("Declaration of qual " + name + "Qual name " + qname);
+				return false;
+			}
+			/*
+			public boolean visit(SimpleName node) {
+				System.out.println(node);
+				return true;
+			}*/
 			// TODO: Continue here
-		//}
+		});
 	}
 	
 	
@@ -59,8 +79,10 @@ public class DeclarationCounter {
 		});
 		for (File file : listOfFiles) {
 			if (file.isFile()) {
-				String fileString = sourceToString(file.getName());
-				//Call ASTParser with string
+				String fileString = sourceToString(file.getAbsolutePath());
+				System.out.println(fileString);
+				// TODO: Call ASTParser with string
+				parseDirectory(fileString);
 			}
 		}
 	}
