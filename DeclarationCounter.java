@@ -103,13 +103,18 @@ public class DeclarationCounter {
 				return name.endsWith(".java");
 			}
 		});
-		for (File file : listOfFiles) {
-			if (file.isFile()) {
-				String fileString = sourceToString(file.getAbsolutePath());
-				//System.out.println(fileString);
-				parseDirectory(fileString);
-				//System.out.println(declarationsFound + " " + referencesFound);
+		try {
+			for (File file : listOfFiles) {
+				if (file.isFile()) {
+					String fileString = sourceToString(file.getAbsolutePath());
+					//System.out.println(fileString);
+					parseDirectory(fileString);
+					//System.out.println(declarationsFound + " " + referencesFound);
+				}
 			}
+		} catch (NullPointerException e){
+			System.out.println("Could not find any .java files");
+			System.exit(0);
 		}
 	}
 	
