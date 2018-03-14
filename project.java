@@ -1,3 +1,11 @@
+/* Main file
+ *
+ * Contributors: Cody Clar, Scott Eveleigh, Daniel Nwaroh
+ * Created: March 5, 2018
+ *
+ * TODO: Provide description of what this program does
+ */
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
