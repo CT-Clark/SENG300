@@ -4,6 +4,8 @@ public class ClassForTesting {
         String place = "Calgary";
         place = "Nowhere";
         java.lang.String person = "Bob";
+        person = "ted";
         java.lang.String people = "Group";
+        lang.String pop = "Sprite";
 	}
 }

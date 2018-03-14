@@ -3,17 +3,24 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
+import org.eclipse.jdt.core.dom.QualifiedType;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 
 public class DeclarationCounter {
 	
@@ -21,6 +28,8 @@ public class DeclarationCounter {
 	private String javaTypeName;
 	public int declarationsFound = 0;
 	public int referencesFound = 0;
+	public int x = 0;
+	public ArrayList<String> refs = new ArrayList<String>();
 	
 	public String getPathName() { 
 		return pathName;
@@ -50,20 +59,32 @@ public class DeclarationCounter {
 		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
 
 		cu.accept(new ASTVisitor() {
-			/*public boolean visit(VariableDeclarationFragment node) {//TypeDeclaration node) {
-				SimpleName name = node.getName();
-				System.out.println("Declaration of " + name);
-				return false;
-			}*/
-			public boolean visit(QualifiedName node) {//TypeDeclaration node) {
-				SimpleName name = node.getName();
-				Name qname = node.getQualifier();
-				System.out.println("Declaration of: " + name + " Its Qualifier is: " + qname);
+			
+			public boolean visit(SimpleType node) {
+				String jtn = getJavaTypeName();
+				//String jtn = "java.lang.String";
+				Name name = node.getName();
+				System.out.println("SimpleType " + name + "  " + name.getFullyQualifiedName());
+				if (name.getFullyQualifiedName().equals(jtn)) {
+					declarationsFound++;
+					x = 1;
+				}
+				
 				return false;
 			}
 			
 			public boolean visit(SimpleName node) {
-				System.out.println(node);
+				String name = node.getFullyQualifiedName();
+				if (x == 1) {
+					refs.add(name);
+					x = 0;
+				}
+				for (int i = 0; i < refs.size(); i++) {
+					if (name.equals(refs.get(i))) {
+						referencesFound++;
+					}
+				}
+				System.out.println(name);
 				return true;
 			}
 			// TODO: Continue here
@@ -73,7 +94,8 @@ public class DeclarationCounter {
 	//This method checks the given directory for .java files
 	//Then passes them to "sourceToString" to make them strings
 	//Then to "parseDirectory" to parse them
-	public void findJavaFiles(String pathName) {
+	public void findJavaFiles() {//String pathName) {
+		String pathName = getPathName();
 		final File directory = new File(pathName);
 		File[] listOfFiles = directory.listFiles(new FilenameFilter() {
 			public boolean accept(File directory, String name) {
@@ -84,8 +106,8 @@ public class DeclarationCounter {
 			if (file.isFile()) {
 				String fileString = sourceToString(file.getAbsolutePath());
 				System.out.println(fileString);
-				// TODO: Call ASTParser with string
 				parseDirectory(fileString);
+				System.out.println(declarationsFound + " " + referencesFound);
 			}
 		}
 	}
