@@ -6,12 +6,17 @@
  * TODO: Provide description of what this program does
  */
 
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+
+import java.io.*;
+import java.util.Scanner;
+
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
@@ -131,6 +136,26 @@ final class Results {
 	}
 }
 /*
+    public String sourceToString(String pathName) {
+    	Scanner input = null;
+    	StringBuilder sb = new StringBuilder();
+    	String sourceString = "";
+    	try {
+    		input = new Scanner(new File(pathName));
+    		while (input.hasNextLine()) {
+    			String line = input.nextLine();
+    			sb.append(line);
+    			sb.append("\r\n");
+    		}
+    		input.close();
+    		sourceString =  sb.toString();
+    	}
+    	catch (FileNotFoundException fnfe) {
+    		System.out.println("File not Found");
+    	}
+    	return sourceString;
+    }
+    
     public String sourceToString(String pathName) {
     	Scanner input = null;
     	StringBuilder sb = new StringBuilder();
