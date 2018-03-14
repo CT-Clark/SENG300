@@ -44,15 +44,19 @@ public class Tests {
 		System.setOut(System.out);
 	}
 	
+	//Test to check for correct counting values
 	@Test
 	public void testDeclarations() {
 		DeclarationCounter dc = new DeclarationCounter();
 		String[] arg = {BASEDIR, "java.lang.String"};
 		dc.setArgs(arg);
 		dc.findJavaFiles();
+		assertEquals(2, dc.declarationsFound);
+		assertEquals(3, dc.referencesFound);
 		dc.printOutput();
 	}
 	
+	//Test for passing the argument values
 	@Test
 	public void testSetArgs() {
 		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -62,7 +66,7 @@ public class Tests {
 		String[] arg = {"bad"};
 		dc.setArgs(arg);
 		
-		assertEquals("Not enough arguments, please provide the pathname and the Java type.\n", outContent.toString());
+		assertEquals("Not enough arguments, please provide the pathname and the Java type.\r\n", outContent.toString());
 		System.setOut(System.out);
 	}
 }

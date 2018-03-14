@@ -45,7 +45,7 @@ public class DeclarationCounter {
     		pathName = args[0];
     		javaTypeName = args[1];
     	} catch (ArrayIndexOutOfBoundsException e) {
-    		System.out.println("Not enough arguments, please provide the pathname and the Java type.\n");
+    		System.out.println("Not enough arguments, please provide the pathname and the Java type.");
     	}
 	}
 	
@@ -64,13 +64,13 @@ public class DeclarationCounter {
 				String jtn = getJavaTypeName();
 				//String jtn = "java.lang.String";
 				Name name = node.getName();
-				System.out.println("SimpleType " + name + "  " + name.getFullyQualifiedName());
+				//System.out.println("SimpleType " + name + "  " + name.getFullyQualifiedName());
 				if (name.getFullyQualifiedName().equals(jtn)) {
 					declarationsFound++;
 					x = 1;
 				}
 				
-				return false;
+				return true;
 			}
 			
 			public boolean visit(SimpleName node) {
@@ -84,7 +84,7 @@ public class DeclarationCounter {
 						referencesFound++;
 					}
 				}
-				System.out.println(name);
+				//System.out.println(name);
 				return true;
 			}
 			// TODO: Continue here
@@ -105,9 +105,9 @@ public class DeclarationCounter {
 		for (File file : listOfFiles) {
 			if (file.isFile()) {
 				String fileString = sourceToString(file.getAbsolutePath());
-				System.out.println(fileString);
+				//System.out.println(fileString);
 				parseDirectory(fileString);
-				System.out.println(declarationsFound + " " + referencesFound);
+				//System.out.println(declarationsFound + " " + referencesFound);
 			}
 		}
 	}

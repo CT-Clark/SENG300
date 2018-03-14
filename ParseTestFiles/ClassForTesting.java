@@ -1,5 +1,6 @@
 public class ClassForTesting {
 	public void Method() {
+        String[] list = {"one","two"};
 		int num = 12;
         String place = "Calgary";
         place = "Nowhere";
