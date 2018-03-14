@@ -30,12 +30,7 @@ class Tests {
 	@Test
 	public void testFindJavaFiles() {
 		DeclarationCounter dc = new DeclarationCounter();
-		try {
-			dc.findJavaFiles(BASEDIR);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		dc.findJavaFiles(BASEDIR);
 		
 	}
 	
@@ -57,11 +52,6 @@ class Tests {
 	@Test
 	public void testDeclarations() {
 		DeclarationCounter dc = new DeclarationCounter();
-		try {
-			dc.findJavaFiles(BASEDIR);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		dc.findJavaFiles(BASEDIR);
 	}
 }

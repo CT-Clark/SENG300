@@ -40,6 +40,7 @@ public class DeclarationCounter {
     	}
 	}
 	
+	//Method to parse and count declarations and references
 	public void parseDirectory(String pathName) {//, String javaTypeName, int declarationsFound, int referencesFound) {
 		ASTParser parser = ASTParser.newParser(AST.JLS9);
 		//String str = sourceToString(pathName);
@@ -57,20 +58,22 @@ public class DeclarationCounter {
 			public boolean visit(QualifiedName node) {//TypeDeclaration node) {
 				SimpleName name = node.getName();
 				Name qname = node.getQualifier();
-				System.out.println("Declaration of qual " + name + "Qual name " + qname);
+				System.out.println("Declaration of: " + name + " Its Qualifier is: " + qname);
 				return false;
 			}
-			/*
+			
 			public boolean visit(SimpleName node) {
 				System.out.println(node);
 				return true;
-			}*/
+			}
 			// TODO: Continue here
 		});
 	}
 	
-	
-	public void findJavaFiles(String pathName) throws IOException {
+	//This method checks the given directory for .java files
+	//Then passes them to "sourceToString" to make them strings
+	//Then to "parseDirectory" to parse them
+	public void findJavaFiles(String pathName) {
 		final File directory = new File(pathName);
 		File[] listOfFiles = directory.listFiles(new FilenameFilter() {
 			public boolean accept(File directory, String name) {
@@ -87,6 +90,8 @@ public class DeclarationCounter {
 		}
 	}
 	
+	//This method converts a file to one string. It takes the pathname of the file
+	//As an argument
     public String sourceToString(String pathName) {
     	Scanner input = null;
     	StringBuilder sb = new StringBuilder();
@@ -107,6 +112,7 @@ public class DeclarationCounter {
     	return sourceString;
     }
     
+    //This method prints the output of the parsing to the console
     public void printOutput() {
     	String jtn = getJavaTypeName();
     	System.out.println(jtn + ". Declarations found: " + 
