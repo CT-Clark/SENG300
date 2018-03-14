@@ -46,6 +46,7 @@ public class DeclarationCounter {
     		javaTypeName = args[1];
     	} catch (ArrayIndexOutOfBoundsException e) {
     		System.out.println("Not enough arguments, please provide the pathname and the Java type.");
+    		System.exit(0);
     	}
 	}
 	
@@ -130,6 +131,7 @@ public class DeclarationCounter {
     	}
     	catch (FileNotFoundException fnfe) {
     		System.out.println("File not Found");
+    		System.exit(0);
     	}
     	return sourceString;
     }

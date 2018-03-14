@@ -6,7 +6,5 @@ public class Master {
 		dc.setArgs(args);
 		dc.findJavaFiles();
 		dc.printOutput();
-
 	}
-
 }
