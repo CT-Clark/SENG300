@@ -10,6 +10,7 @@ public class Tests {
 	private static String BASEDIR = "C:/Users/Scott Eveleigh/Documents/GitHub/SENG300/ParseTestFiles";
 	private static String fileContents = "public class ClassForTesting {\r\n" + 
 			"	public void Method() {\r\n" + 
+			"        String[] list = {\"one\",\"two\"};\r\n" + 
 			"		int num = 12;\r\n" + 
 			"        String place = \"Calgary\";\r\n" + 
 			"        place = \"Nowhere\";\r\n" + 
@@ -53,7 +54,6 @@ public class Tests {
 		dc.findJavaFiles();
 		assertEquals(2, dc.declarationsFound);
 		assertEquals(3, dc.referencesFound);
-		dc.printOutput();
 	}
 	
 	//Test for passing the argument values
@@ -67,6 +67,20 @@ public class Tests {
 		dc.setArgs(arg);
 		
 		assertEquals("Not enough arguments, please provide the pathname and the Java type.\r\n", outContent.toString());
+		System.setOut(System.out);
+	}
+	
+	//Test for cannot find .java files
+	@Test
+	public void testNoJavaFiles() {
+		final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outContent));
+		
+		DeclarationCounter dc = new DeclarationCounter();
+		String[] list = {"", "java.lang.String"};
+		dc.setArgs(list);
+		dc.findJavaFiles();
+		assertEquals("Could not find any .java files\r\n", outContent.toString());
 		System.setOut(System.out);
 	}
 }
