@@ -1,6 +1,6 @@
 /* Main file
  *
- * Contributors: Cody Clar, Scott Eveleigh, Daniel Nwaroh
+ * Contributors: Cody Clark, Scott Eveleigh, Daniel Nwaroh
  * Created: March 5, 2018
  *
  * TODO: Provide description of what this program does
@@ -26,8 +26,6 @@ public class project {
 	private static String pathName;
 	private static String javaTypeName;
 	
-	enum Quark{ UP, DOWN}
-	
 	// Parses the java file to find declarations and references of a particular Java type
 	public static void parse(String str, Results results) {
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
@@ -41,29 +39,10 @@ public class project {
  
 			Set<String> names = new HashSet<String>();
 			
-			String a;
-			
-			// TODO: Find the declarations node type, find the references node type
-			// After that it's really just logic and string checking
-			/*
-			public boolean visit(TypeDeclaration node) {
-				SimpleName name = node.getName();
-				this.names.add(name.getIdentifier());
-				if (name.getIdentifier() == results.type) {
-					System.out.println("Declaration of '" + name + "' at line"
-							+ cu.getLineNumber(name.getStartPosition()));
-					
-					results.declarations++;
-				}
-				System.out.println(results.declarations);
-				return false; // do not continue 
-			}
-			*/
-			
 			public boolean visit(AnnotationTypeDeclaration node) {
 				SimpleName name = node.getName();
 				System.out.println(name);
-				return false;
+				return false; // return false for declarations
 			}
 			
 			public boolean visit(EnumDeclaration node) {
@@ -81,7 +60,7 @@ public class project {
 			public boolean visit(SimpleType node) {
 				
 				System.out.println(node.getName());
-				return true;
+				return true; // return true for references
 			}
 		});
  
@@ -139,6 +118,7 @@ public class project {
     }
 }
 
+// Class to store and pass the results and result outputs
 final class Results {
 	int declarations = 0;
 	int references = 0;
@@ -150,7 +130,6 @@ final class Results {
 	}
 }
 
-final class DoesItWork{}
 /*
     public String sourceToString(String pathName) {
     	Scanner input = null;
