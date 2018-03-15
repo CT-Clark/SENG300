@@ -5,68 +5,82 @@
  *
  * TODO: Provide description of what this program does
  */
-
-
 import java.io.*;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Scanner;
+//import java.util.List;
+//import java.util.Scanner;
 import java.util.Set;
-
-import java.io.*;
-import java.util.Scanner;
-
 
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.*;
-import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+//import org.eclipse.jdt.core.dom.SimpleName;
+//import org.eclipse.jdt.core.dom.TypeDeclaration;
+//import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
  
 public class project {
 	private static String pathName;
 	private static String javaTypeName;
 	
+	enum Quark{ UP, DOWN}
+	
 	// Parses the java file to find declarations and references of a particular Java type
 	public static void parse(String str, Results results) {
 		ASTParser parser = ASTParser.newParser(AST.JLS3);
 		parser.setSource(str.toCharArray());
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setResolveBindings(true);
  
 		final CompilationUnit cu = (CompilationUnit) parser.createAST(null);
  
 		cu.accept(new ASTVisitor() {
  
 			Set<String> names = new HashSet<String>();
- 
+			
+			String a;
+			
 			// TODO: Find the declarations node type, find the references node type
 			// After that it's really just logic and string checking
-			public boolean visit(TypeDeclaration node) { //FInd the right node type
-				//SimpleName name = node.getName();
-				//this.names.add(name.getIdentifier());
-				//System.out.println("Declaration of '" + name + "' at line"
-						//+ cu.getLineNumber(name.getStartPosition()));
-				System.out.println("This node is of type: "+ node.getDeclaration());
-				results.declarations++;
+			/*
+			public boolean visit(TypeDeclaration node) {
+				SimpleName name = node.getName();
+				this.names.add(name.getIdentifier());
+				if (name.getIdentifier() == results.type) {
+					System.out.println("Declaration of '" + name + "' at line"
+							+ cu.getLineNumber(name.getStartPosition()));
+					
+					results.declarations++;
+				}
 				System.out.println(results.declarations);
 				return false; // do not continue 
 			}
+			*/
+			
+			public boolean visit(AnnotationTypeDeclaration node) {
+				SimpleName name = node.getName();
+				System.out.println(name);
+				return false;
+			}
+			
+			public boolean visit(EnumDeclaration node) {
+				SimpleName name = node.getName();
+				System.out.println(name);
+				return false;
+			}
+			
+			public boolean visit(TypeDeclaration node) {
+				SimpleName name = node.getName();
+				System.out.println(name);
+				return false;
+			}
  
-			public boolean visit(SimpleName node) {
-				if (this.names.contains(node.getIdentifier())) {
-					System.out.println("Usage of '" + node + "' at line "
-							+ cu.getLineNumber(node.getStartPosition()));
-					results.references++;
-					System.out.println(results.references);
-					//System.out.println("This node is of type: "+ name.nodeClassForType(node.getNodeType()));
-				}
+			public boolean visit(SimpleType node) {
 				
-				
+				System.out.println(node.getName());
 				return true;
 			}
 		});
@@ -135,27 +149,9 @@ final class Results {
 		System.out.println("Total references of "+type+": "+this.references);
 	}
 }
+
+final class DoesItWork{}
 /*
-    public String sourceToString(String pathName) {
-    	Scanner input = null;
-    	StringBuilder sb = new StringBuilder();
-    	String sourceString = "";
-    	try {
-    		input = new Scanner(new File(pathName));
-    		while (input.hasNextLine()) {
-    			String line = input.nextLine();
-    			sb.append(line);
-    			sb.append("\r\n");
-    		}
-    		input.close();
-    		sourceString =  sb.toString();
-    	}
-    	catch (FileNotFoundException fnfe) {
-    		System.out.println("File not Found");
-    	}
-    	return sourceString;
-    }
-    
     public String sourceToString(String pathName) {
     	Scanner input = null;
     	StringBuilder sb = new StringBuilder();
