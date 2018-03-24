@@ -3,7 +3,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
@@ -22,9 +24,12 @@ public class JavaFileParser {
 	 * and the second element containing the number of references to typeName counted.
 	 * @throws IOException If an I/O error occurs while opening or reading the file
 	 */
-	public int[] parse(String[] names, String sourcePath, String typeName) throws IOException {
+	public HashMap<String, int[]> parse(String[] names, String sourcePath, String typeName) throws IOException {
 		parser = ASTParser.newParser(AST.JLS8);
-		int[] countPair = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		TypeFinderVisitor typeFinder = new TypeFinderVisitor();
+		
+		
+		HashMap<String, int[]> hMapJFP = new HashMap<String, int[]>();
 
 		for (int i = 0; i < names.length; i++) {
 			// Configure the parser.
@@ -63,21 +68,14 @@ public class JavaFileParser {
 			
 			// Create the ast for the input file
 			CompilationUnit ast = (CompilationUnit) parser.createAST(null);
-			TypeFinderVisitor typeFinder = new TypeFinderVisitor();
-			typeFinder.setTargetType(typeName);
+			
 			ast.accept(typeFinder);
 			
 			
 			
-
-			for (int j = 0; j<10;j++){
-				
-				countPair[j] += typeFinder.refsAndDecsCount[j];
-			}
 		}
 	
-
-		return countPair;
+		return typeFinder.hMap;
 	}
 
 }

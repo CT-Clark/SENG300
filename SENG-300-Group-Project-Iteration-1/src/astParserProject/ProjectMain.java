@@ -1,8 +1,12 @@
 package astParserProject;
 import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 public class ProjectMain {
-	static int[] counts;
+	//static int[] counts;
+	public static HashMap<String, int[]> hMapCount = new HashMap<String, int[]>();
 
 	/**
 	 * 
@@ -12,7 +16,6 @@ public class ProjectMain {
 	 * @throws IllegalArgumentException When the given path is not to a folder
 	 */
 	public static void main(String[] args) throws IOException, IllegalArgumentException {
-		counts = new int[9];
 		
 		String targetType = args[0];
 		String sourcePath = args[1];
@@ -20,17 +23,28 @@ public class ProjectMain {
 		String[] fileNames = fileFinder.getJavaFiles(sourcePath);
 		
 		JavaFileParser backend = new JavaFileParser();
-		counts = backend.parse(fileNames, sourcePath, targetType);
+		hMapCount = backend.parse(fileNames, sourcePath, targetType);
+		
+		
+		
+		 /* Display content using Iterator*/
+	      Set set = hMapCount.entrySet();
+	      Iterator iterator = set.iterator();
+	      while(iterator.hasNext()) {
+	         Map.Entry mentry = (Map.Entry)iterator.next();
+	         int decs = hMapCount.get(mentry.getKey())[0];
+	         int refs = hMapCount.get(mentry.getKey())[1];
+	         System.out.println(mentry.getKey() + " Declarations Found: " +decs + " References Found: " + refs );
+	     
+	      }
+
+	      
 		
 
 
 		
 		
-		System.out.println("Simple Type" + ". Declarations found: " + counts[0] + "; references found: " + counts[1] + ".");
-		System.out.println("Annotation Type" + ". Declarations found: " + counts[2] + "; references found: " + counts[3] + ".");
-		System.out.println("Interface Type" + ". Declarations found: " + counts[4] + "; references found: " + counts[5] + ".");
-		System.out.println("Enum Type" + ". Declarations found: " + counts[6] + "; references found: " + counts[7] + ".");
-		System.out.println("Primative Type" + ". Declarations found: " + counts[8] + "; references found: " + counts[9] + ".");
+		
 
 	}
 

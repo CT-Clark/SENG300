@@ -1,11 +1,29 @@
 package astParserProject;
+
+import java.util.HashMap;
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.UnionType;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.IntersectionType;
+import org.eclipse.jdt.core.dom.MarkerAnnotation;
+import org.eclipse.jdt.core.dom.NameQualifiedType;
+import org.eclipse.jdt.core.dom.NormalAnnotation;
+import org.eclipse.jdt.core.dom.ParameterizedType;
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.QualifiedType;
+import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.eclipse.jdt.core.dom.WildcardType;
 
 /**
 	 * 
@@ -14,60 +32,95 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 	 *
 	 */
 public class TypeFinderVisitor extends ASTVisitor {
-		//public int[] refsAndDecsCount = new int[10];
-		//refsAndDecsCount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	
-		int[] refsAndDecsCount = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		public HashMap<String, int[]> hMap = new HashMap<String, int[]>();
+	
 		
-		//refsAndDecCount[0] = Simple declaration
-		//refsAndDecCount[1] = Simple references 
-		//refsAndDecCount[2] = Annotation declaration
-		//refsAndDecCount[3] = Annotation references
-		//refsAndDecCount[4] = Interface declaration
-		//refsAndDecCount[5] = Interface references
-		//refsAndDecCount[6] = Enum declaration
-		//refsAndDecCount[7] = Enum references
-		//refsAndDecCount[8] = Primitive declaration
-		//refsAndDecCount[9] = Primitive references
+	
 		
-		public int declarationCount = 0;
-		public int referenceCount = 0;
-		private String targetType = "";
 
-		/**
-		 * Set the targetType
-		 * @param typeName The name of the new targetType
-		 */
-		public void setTargetType(String typeName) {
-			targetType = typeName;
-		}
+
 
 	
 		
 		public boolean visit(TypeDeclaration node) {
-			ITypeBinding bind = node.resolveBinding();
-
-			if (bind.getQualifiedName().equals(targetType)) {
-				refsAndDecsCount[0]++;
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.getName().toString());
+				item[0]++;
+							
+			}else{
+				int[] tempArray = {1,0};
+				hMap.put(node.getName().toString(), tempArray);
 			}
+			
 			return true;
 		}
 		
-		public boolean visit(SimpleType node) {
-			ITypeBinding bind = node.resolveBinding();
+		
+		public boolean visit(SingleMemberAnnotation node) {
+			//ITypeBinding bind = node.resolveBinding();
 
-			if (bind.getQualifiedName().equals(targetType)) {
-				refsAndDecsCount[1]++;
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
 			}
 
 			return true;
 		}
+		
+		public boolean visit(NormalAnnotation node) {
+			//ITypeBinding bind = node.resolveBinding();
+
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+
+			return true;
+		}
+		
+		
+		public boolean visit(MarkerAnnotation node) {
+			//ITypeBinding bind = node.resolveBinding();
+
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+
+			return true;
+		}
+		
+		
+		
 		
 		public boolean visit(AnnotationTypeDeclaration node) {
-			ITypeBinding bind = node.resolveBinding();
+			//ITypeBinding bind = node.resolveBinding();
 
-			if (bind.getQualifiedName().equals(targetType)) {
-				refsAndDecsCount[2]++;
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.getName().toString());
+				item[0]++;
+							
+			}else{
+				int[] tempArray = {1,0};
+				hMap.put(node.getName().toString(), tempArray);
 			}
 
 			return true;
@@ -77,23 +130,171 @@ public class TypeFinderVisitor extends ASTVisitor {
 		
 	
 		public boolean visit(EnumDeclaration node) {
-			ITypeBinding bind = node.resolveBinding();
+			//ITypeBinding bind = node.resolveBinding();
 
-			if (bind.getQualifiedName().equals(targetType)) {
-				refsAndDecsCount[6]++;
+			if (hMap.containsKey(node.getName().toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[0]++;
+							
+			}else{
+				int[] tempArray = {1,0};
+				hMap.put(node.getName().toString(), tempArray);
 			}
 
 			return true;
 		}
 		
+		
 		public boolean visit(PrimitiveType node) {
-			ITypeBinding bind = node.resolveBinding();
-
-			if (bind.getQualifiedName().equals(targetType)) {
-				refsAndDecsCount[9]++;
+			//System.out.println(node.toString());
+			
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
 			}
-
 			return true;
 		}
+		
+		public boolean visit(SimpleType node) {
+			
+			if (hMap.containsKey(node.getName().toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+				
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.getName().toString(), tempArray);
+			}
+			return true;
+		}
+		/*
+		public boolean visit(QualifiedType node) {
+			//System.out.println(node.toString() + "QualifiedType");
+			
+			if (hMap.containsKey(node.getName().toString())){
+							
+				int[] item = hMap.get(node.getName().toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			
+			return true;
+		}
+		*/
+		
+		/*
+		public boolean visit(NameQualifiedType node) {
+			//System.out.println(node.toString() + "NameQualifiedType");
+			
+			if (hMap.containsKey(node.getName().toString())){
+				
+				int[] item = hMap.get(node.getName().toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			
+			return true;
+		}
+		*/
+		
+		/*
+		public boolean visit(WildcardType node) {
+			//System.out.println(node.toString() + "WildcardType");
+			
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			
+			return true;
+		}
+		*/
+		
+		
+		public boolean visit(ArrayType node) {
+			
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			return true;
+		}
+		
+		/*
+		public boolean visit(ParameterizedType node) {
+			//System.out.println(node.toString() + "ParameterizedType");
+			
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			return true;
+		} 
+		*/
+		
+		
+		/*
+		public boolean visit(UnionType node) {
+			//System.out.println(node.toString() + "UnionTyp");
+			
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			
+			return true;
+		}
+		*/
+		
+		/*
+		public boolean visit(IntersectionType node) {
+			//System.out.println(node.toString()+ "IntersectionType");
+			
+			if (hMap.containsKey(node.toString())){
+				
+				int[] item = hMap.get(node.toString());
+				item[1]++;
+							
+			}else{
+				int[] tempArray = {0,1};
+				hMap.put(node.toString(), tempArray);
+			}
+			return true;
+		}
+		*/
+		
 
 	}
