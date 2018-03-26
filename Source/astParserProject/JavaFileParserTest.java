@@ -62,16 +62,17 @@ public class JavaFileParserTest {
 		assertEquals(4, counts[1]);
 	}
 	
-	public void qualifiedTypeCounts() throws IllegalArgumentException, IOException{
-		String[] names = {"qualifiedType.java"};
-		String targetType = "";
+	public void enumCounts() throws IllegalArgumentException, IOException{
+		String[] names = { "A.java", "B.java", "C.java", "D.java", "E.java" };
+		String sourcePath = BASEDIR + File.separator + "tests" + File.separator + "GoodExtensions";
+		String targetType = "e";
 		
 		HashMap<String, int[]> hMap = new HashMap<String, int[]>();
-		hMap = parser.parse(names, targetType);
+		hMap = parser.parse(names, sourcePath);
 		int[] counts = hMap.get(targetType);
 		
-		System.out.println(counts[0] + " " + counts[1]); // incomplete file
-		}
-
+		assertEquals(1, counts[0]);
+	}
+	
 
 }
