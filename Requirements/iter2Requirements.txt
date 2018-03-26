@@ -1,0 +1,77 @@
+Instructions
+
+The second iteration is more complex than the first.  You need to worry about edge cases now.
+Overview
+
+You are to develop an analysis tool that will find ALL the Java type declarations and references within a specified directory (recursively) OR JAR file.
+Team
+
+You will be assigned to a 5- or 6-person team according to the information on this spreadsheet.  The contact information contained herein is private and is not to be used for any purposes outside of the project for this course.
+
+You are required to contact your teammates to help organize the project. 
+
+You are required to participate in and contribute to your team's project.
+
+Failrure to do these things or failure to do them in a timely manner will result in reduction of your grade, regardless of the overall performance of the team.
+Requirements
+Team-based aspects
+
+You and your team must develop a standalone Java application that:
+
+    takes a pathname to indicate a directory or JAR file of interest,
+    finds the declarations of all types within that directory (recursively) or JAR file, and
+    finds the references to all types within that directory (recursively) or JAR file.
+
+The output must be a string written to the console (i.e., standard output) stating the name of each type, the count of declarations, and the count of references:
+
+<type>. Declarations found: <count>; references found: <count>.
+
+where the <type> and two <count>s are to be replaced with the relevant values.
+
+You and your team must develop an automated test suite for testing your application.  Logical test case selection and coverage both matter.
+
+You and your team must provide structural, sequence/communication, and state diagrams to explain how your application works.  These can be modified versions of the ones you provided in the first iteration.
+
+You and your team may provide a supplementary, one (1) page explanation of how your application works.  This should aim to help the reader interpret the diagrams.
+
+You and your team must provide a Git log that demonstrates who performed commits over time. (This can be used partially as evidence regarding individual opinions; see below.)
+Peer/self evaluations
+
+There is a SEPARATE Dropbox folder for these individual peer/self evaluations.  The instructions are given there.
+Considerations
+
+What we are looking for is: (1) Does your application work? (2) Is your test suite designed to demonstrate the presence of bugs? (3) Do your diagrams explain your implementation? (4) Have you dealt with all the different kinds of types that can arise in Java programs? (5) Have you fulfilled the other requirements?
+Advice
+
+Java types can be primitive types and reference types.  Primitive types consist of: boolean, byte, char, double, float, int, long, and short.  Reference types include arrays (which have no explicit declaration!), classes, and interfaces.  Classes include enumerations.  Interfaces include annotation types.  Annotations represent references to annotation types.  Classes and interfaces can sometimes be nested within other classes and interfaces.  Classes and interfaces can be local sometimes (i.e., declared within a method).  Classes can sometimes be annonymous! meaning that they do not always have names: this complicates matters.
+
+You cannot assume that the source code to be analyzed actually compiles; you can assume that it should parse (signalling an error if it does not).  You cannot assume that class files reflect associated source code.
+
+Make sure that you read your TA's comments from the first iteration and correct your mistakes!
+
+Remember: In a good team, everyone contributes, but not necessarily in the same way.
+Solution Submission
+
+You are required to submit:
+
+    your diagrams (plus a cover page with the names and student numbers of your teammates, plus an optional explanation page) as a single PDF document;
+    a ZIP file containing your exported Eclipse project (including your automated test suite); and,
+    your Git log file
+
+in this Dropbox folder before the due date/time.  Your Dropbox comments can explain sources of information you have used, as described below.
+Late Penalties
+
+Submissions made more than 48 hours beyond the due date/time will receive an F.
+
+The late penalty will otherwise be calculated as:
+
+late_penalty = min { hours_late, 48 } / 48
+
+hours_late will be determined according to D2L.  Submissions that are less than an hour late will receive no late penalty (i.e., there is a grace period of an hour).
+Collaboration and Plagiarism
+
+This is a group assignment as explained under the course Collaboration and Plagiarism Policy.  It is to be performed strictly within your assigned group.  Questions may be asked on the D2L Discussion Forum.  Assistance in practical matters (setting up an Eclipse project, running the debugger, etc.) are acceptable from students outside your group, but discussion of details of the assignment solution cross the line.  If in doubt, ask us first!
+
+You must cite all sources of information that you use in your solution (other than materials that we directly hand you, like this description, the course notes, details posted to the Discussion Forum).  You can list these in the comments when you submit your solution.
+
+This is an individual D2L Dropbox folder strictly for practical reasons: I have run into difficulties in the past with D2L's support for groups, so this is easier
