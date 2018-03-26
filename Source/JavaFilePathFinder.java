@@ -54,12 +54,12 @@ public class JavaFilePathFinder {
 					if(fileExtension.equals(".java")){
 						javaFilesList.add(javaFiles[i].getName());
 					
-						if(fileExtension.equals(".jar")){
-							javaFilesList.add(javaFiles[i].getName());
-							JarFilePathFinder jarFinder = new JarFilePathFinder();
-							jarFinder.readJarFile(javaFiles[i].getName());
-							
-						}
+					if(fileExtension.equals(".jar")){
+						javaFilesList.add(javaFiles[i].getName());
+						JarFilePathFinder jarFinder = new JarFilePathFinder();
+						jarFinder.readJarFile(javaFiles[i].getName());
+						
+					}
 					
 					}
 				}
