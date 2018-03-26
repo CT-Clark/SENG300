@@ -18,6 +18,10 @@ import java.util.jar.JarFile;
  */
 public class JavaFilePathFinder {
 
+	
+	// Have the list as a class field that all methods can access
+	LinkedList<String> list = new LinkedList<>();
+	
 	/**
 	 * METHOD: getJavaFiles()
 	 * <p>
@@ -32,12 +36,6 @@ public class JavaFilePathFinder {
 	 *          If the path of the target directory doesn't exist
 	 * @throws IOException 
 	 */
-	
-
-	
-	
-	// Have the list as a class field that all methods can access
-	LinkedList<String> list = new LinkedList<>();
 
 	public String[] getJavaFiles(String directoryPath) throws IllegalArgumentException, IOException{ 
 		File directory = new File(directoryPath);
@@ -62,7 +60,7 @@ public class JavaFilePathFinder {
 	    		BufferedReader inputFile = Files.newBufferedReader(Paths.get(filePath), Charset.defaultCharset());
 	    		//System.out.println(inputSource);
 	    		String result = "";
-				
+				// Read .java file into a string for the ASTParser
 				do {
 					result = inputFile.readLine();
 					if (result != null) {
@@ -77,7 +75,7 @@ public class JavaFilePathFinder {
 	        } else if (fileExtension.equals(".jar")){
 	            readFromJar(filePath);
 	        	
-	    	} else if (javaFiles[i].isDirectory() == true) {
+	    	} else if (javaFiles[i].isDirectory() == true) {  // Recursive call for directory parsing
 	           getJavaFiles(filePath);
 	    	}	
 	        
@@ -88,7 +86,16 @@ public class JavaFilePathFinder {
 	    return sourceArray;  
 	
 	}
-		
+	
+	/**
+     * Reads all files with the .java file extension inside the current directory into strings.
+     * Throws an IOException if the JarFile constructor or the input stream does.
+     * If the given path is null or does not have a .jar file extension the method returns without doing anything.
+     *
+     * JarFile constructor documented to throw IOException "if an I/O error has occured"
+     * the exact terms of that are unknown.
+     * Known causes: the given name does not correspond to a file, the given file is not a .jar file
+     */
 	private void readFromJar (String path) throws IOException {
 		
 	        if (path == null)
