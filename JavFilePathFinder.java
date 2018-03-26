@@ -60,7 +60,7 @@ public class JavaFilePathFinder {
 	        if (fileExtension.equals(".java")) {
 	        	//System.out.println("here");
 	        	StringBuilder inputSource = new StringBuilder();
-	    		BufferedReader inputFile = Files.newBufferedReader(Paths.get(javaFiles[i].getAbsolutePath()), Charset.defaultCharset());
+	    		BufferedReader inputFile = Files.newBufferedReader(Paths.get(filePath), Charset.defaultCharset());
 	    		//System.out.println(inputSource);
 	    		String result = "";
 				
@@ -68,6 +68,7 @@ public class JavaFilePathFinder {
 					result = inputFile.readLine();
 					if (result != null) {
 						inputSource.append(result);
+						inputSource.append("\n");
 					}
 				} while (result != null);
 				list.add(inputSource.toString());
