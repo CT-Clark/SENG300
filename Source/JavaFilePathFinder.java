@@ -1,7 +1,16 @@
-package astParserProject;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * Class that gets a list of paths to .java files
@@ -18,68 +27,95 @@ public class JavaFilePathFinder {
 	 * 			A String that is assigned to the path of the target directory
 	 * 
 	 * @return
-	 * 			A String[] of paths to all the .java files in the target directory
+	 * 			A String[] of the source code of all the .java files in the target directory
 	 * @throws IllegalArgumentException 
 	 *          If the path of the target directory doesn't exist
+	 * @throws IOException 
 	 */
-	public String[] getJavaFiles(String directoryPath) throws IllegalArgumentException{ 
-		
-		if (directoryPath == null){
-			throw new IllegalArgumentException();
-		}
-		//Initialize an String ArrayList for the java file paths
-		ArrayList<String> javaFilesList = new ArrayList<String>();
-		
-		//Get the directory that is assigned to the user's path
-		File directory = new File(directoryPath);
-		
-		//IF: the given directory path IS a directory, get the java files
-		if(directory.isDirectory() == true) {
-			
-			//Get a a list of all the files in the directory
-			File[] javaFiles = directory.listFiles();
-			
-			//FOR: each file in the directory, do a series of checks
-			for(int i = 0;i < javaFiles.length;i++) {
-				
-				//IF: the file is NOT a directory, continue to the next check
-				if(javaFiles[i].isDirectory() == false){
-					
-					//Get the file extension of the file
-					String filePath = javaFiles[i].toString();
-					
-					String fileExtension = filePath.substring(filePath.lastIndexOf("."));
-					
-					//IF: the file extension IS .java (Java file), add it's name to the ArrayList
-					if(fileExtension.equals(".java")){
-						javaFilesList.add(javaFiles[i].getName());
-					
-						if(fileExtension.equals(".jar")){
-							javaFilesList.add(javaFiles[i].getName());
-							JarFilePathFinder jarFinder = new JarFilePathFinder();
-							jarFinder.readJarFile(javaFiles[i].getName());
-							
-						}
-					
-					}
-				}
-			}
-			//Create a String[] for the java file paths
-			String[] javaFilesPaths = new String[javaFilesList.size()];
-			
-			//FOR: convert the ArrayList for the java file paths into a String[]
-			for(int i = 0;i < javaFilesList.size();i++) {
-				javaFilesPaths[i] = javaFilesList.get(i);
-			}
-			
-			//RETURN: a String[] that holds all the paths for all java files in the directory
-			return javaFilesPaths;
-		}
-		
-		//ELSE: the given directory path is NOT a directory, throw an exception
-		else {
-			throw new IllegalArgumentException();
-		}
-	}
+	
 
+	
+	
+	// Have the list as a class field that all methods can access
+	LinkedList<String> list = new LinkedList<>();
+
+	public String[] getJavaFiles(String directoryPath) throws IllegalArgumentException, IOException{ 
+		File directory = new File(directoryPath);
+		File[] javaFiles = directory.listFiles();
+
+		if (directoryPath == null) {
+			throw new IllegalArgumentException();
+		}
+		
+		if (directory.isDirectory() == false) {
+			throw new IllegalArgumentException();
+		}
+		
+		for (int i = 0; i < javaFiles.length ;  i++) {
+			String filePath = javaFiles[i].getAbsolutePath();	
+			String fileExtension = filePath.substring(filePath.lastIndexOf("."));
+			
+			// read the  '.java' file into a string add the string to the list.
+	        if (fileExtension.equals(".java")) {
+	        	//System.out.println("here");
+	        	StringBuilder inputSource = new StringBuilder();
+	    		BufferedReader inputFile = Files.newBufferedReader(Paths.get(filePath), Charset.defaultCharset());
+	    		//System.out.println(inputSource);
+	    		String result = "";
+				
+				do {
+					result = inputFile.readLine();
+					if (result != null) {
+						inputSource.append(result);
+						inputSource.append("\n");
+					}
+				} while (result != null);
+				list.add(inputSource.toString());
+				
+	           
+			// call the jar file method	
+	        } else if (fileExtension.equals(".jar")){
+	            readFromJar(filePath);
+	        	
+	    	} else if (javaFiles[i].isDirectory() == true) {
+	           getJavaFiles(filePath);
+	    	}	
+	        
+		}
+		
+		
+		String[] sourceArray = list.toArray(new String[list.size()]);
+	    return sourceArray;  
+	
+	}
+		
+	private void readFromJar (String path) throws IOException {
+		
+	        if (path == null)
+	            return;
+	        if (!path.endsWith(".jar"))
+	            return;
+	        
+	        JarFile jar = new JarFile(path);
+	        Enumeration entries = jar.entries();    // Get the files inside the .jar file
+	        while (entries.hasMoreElements()) {
+	            JarEntry ent = (JarEntry) entries.nextElement();
+	            
+	            // If the file has a .java extension, get an InputStream for that file and
+	            // read the file into a string.
+	            if(ent.getName().endsWith(".java")) {
+	                InputStream in = jar.getInputStream(ent);
+	                StringBuilder sb = new StringBuilder();
+	                byte[] buff = new byte[4096];
+	                int i = 0;
+	                while ((i = in.read(buff)) > 0)         // read from file into the buffer
+	                    sb.append(new String(buff, 0, i));  // convert the bytes into a string and add to StringBuilder ** Uses system default charset
+	                list.add(sb.toString());
+	            }
+	        }
+	        return;
+	    }
+	    
+	
+	
 }
